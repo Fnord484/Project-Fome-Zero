@@ -1,6 +1,9 @@
 #Manipulação de dados
 import pandas as pd
 
+#Leitura de url
+import requests
+
 #Tratamento de valores string
 import inflection
 
@@ -18,7 +21,7 @@ from streamlit_folium import folium_static
 from PIL import Image
 
 #Configurações iniciais da página
-st.set_page_config(page_title='Visão Cidade', page_icon='🏙', layout='wide') #'wide' = use full screen
+st.set_page_config(page_title='Visão Geral', page_icon='🎯', layout='wide') #'wide' = use full screen
 
 #============================================
 # Funções utilizadas
@@ -47,6 +50,19 @@ COUNTRIES = {
 def country_name(country_id):
     return COUNTRIES[country_id]
 
+currency = {'Botswana Pula(P)':'BWP',
+            'Brazilian Real(R$)':'BRL',
+            'Dollar($)':'USD',
+            'Emirati Diram(AED)':'AED',
+            'Indian Rupees(Rs.)':'INR',
+            'Indonesian Rupiah(IDR)':'IDR',
+            'NewZealand($)':'NZD',
+            'Pounds(£)':'GBP',
+            'Qatari Rial(QR)':'QAR',
+            'Rand(R)':'ZAR',
+            'Sri Lankan Rupee(LKR)':'LKR',
+            'Turkish Lira(TL)':'TRY'}
+
 #Criação do Tipo de Categoria de Comida
 def create_price_tye(price_range):
     if price_range == 1:
@@ -68,6 +84,31 @@ COLORS = {
  "CBCBC8": "darkred",
  "FF7800": "darkred",
  }
+
+def get_rates(to_currency='USD'):
+    '''
+        Essa função vai obter a taxa de conversão DE uma determinada moeda PARA todas as outras moedas através de uma API;
+        Por padrão, a moeda a ser convertida é o Dolar (USD), mas podemos alterar isso através do parâmetro to_currency
+    '''
+    url = 'https://api.exchangerate-api.com/v4/latest/'+str(to_currency)
+    response = requests.get(url)
+    data = response.json()
+
+    return data
+
+def convert_currency(amount, from_currency,data):
+    '''
+       Essa função vai realizar a conversão de um determinado valor (amount) a partir de uma determinada moeda (from_currency);
+       Como a taxa que obtemos pela API é A PARTIR do dólar, aqui vamos fazer a operação inversa (divisão) para obter a 
+       taxa de conversão PARA o dólar.
+    '''
+    # Salvando a taxa de conversão a partir do json recebido pela API
+    exchange_rate = data['rates'][from_currency]
+    # Como a coluna original possuía apenas números inteiros, vamos arredondar para manter também números inteiros
+    converted_amount = round(amount/exchange_rate)
+
+    return converted_amount
+
 def color_name(color_code):
     return COLORS[color_code]
 
@@ -122,10 +163,23 @@ def clean_df(data_frame):
     #Reset do index após todoso os tratamentos
     df = data_frame.reset_index(drop=True)
 
+    #convertendoo as o custo do prato para 2 para dólar
+
+    data = get_rates()
+
+    #Colunas de histórico antes da conversão
+    df['avg_cost_for_two_old_currency'] = df['average_cost_for_two']
+    df['old_currency'] = df['currency']
+
+    #Convertendo os valores
+    df['average_cost_for_two'] = (df[['currency', 'average_cost_for_two']]
+                                        .apply(lambda x: convert_currency(x['average_cost_for_two'], currency[x['currency']], data), axis=1))
+    df['currency'] = 'Dolar (USD)'
+
     #Criando um backup da Cópia
     df_tratado = df.copy()
 
-    return df,df_tratado   	
+    return df,df_tratado
 
 def group_country(df, coluna, operacao, ordenacao=False):
     df_aux = (df.loc[:,['restaurant_id','country_name',coluna]].groupby(['country_name'])
