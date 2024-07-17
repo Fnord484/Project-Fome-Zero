@@ -6,6 +6,9 @@ st.set_page_config(
     page_icon='🎲',
     layout='centered'
 )
+image_path = 'target.png'
+image = Image.open(image_path)
+st.image(image, width=50)
 
 st.write( '# Fome Zero Company')
 
@@ -40,10 +43,9 @@ st.markdown(
 )   
 
 
-image_path = 'target.png'
-image = Image.open(image_path)
 
-st.image(image, width=120)
+
+
 
 st.sidebar.image( image, width=50 )
 
