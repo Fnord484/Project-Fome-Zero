@@ -209,8 +209,30 @@ image_path = 'target.png'
 image = Image.open(image_path)
 st.image(image, width=50)
 
-st.markdown('# Fome Zero')
-st.markdown('#### Visão Países Cadastrados')
+st.write( '#### *Fome Zero Company*')
+
+col1,col2,col3,col4,col5,col6 = st.columns(6,gap='small')
+
+with col1:
+    if st.button("Home"):
+        st.switch_page("Home.py")
+with col2:
+    if st.button("Visão Geral"):
+        st.switch_page("pages/1_Visao_Geral.py")
+with col3:
+    if st.button("Visão País",disabled=True):
+        st.switch_page("pages/2_Visao_País.py")
+with col4:
+    if st.button("Visão Cidade"):
+        st.switch_page("pages/3_Visao_Cidade.py")
+with col5:
+    if st.button("Visão Restaurantes"):
+        st.switch_page("pages/4_Visao_Restaurante.py")
+with col6:
+    if st.button("Data Base"):
+        st.switch_page("pages/5_Data_Base.py")
+
+st.markdown('### :orange[Visão Países Cadastrados]')
 
 unique_countrys = ['Philippines', 'Brazil', 'Australia', 'United States of America', 'Canada', 'Singapure', 
                    'United Arab Emirates', 'India', 'Indonesia', 'New Zeland', 'England', 'Qatar', 'South Africa', 
@@ -253,17 +275,24 @@ with st.sidebar:
                                             )
    
 
-linhas_selecionadas = (df['aggregate_rating'] >= float(rating_range[0])) & (df['aggregate_rating'] <= float(rating_range[1]))
-df = df.loc[linhas_selecionadas, : ]
-df = df.reset_index(drop=True)
+    linhas_selecionadas = (df['aggregate_rating'] >= float(rating_range[0])) & (df['aggregate_rating'] <= float(rating_range[1]))
+    df = df.loc[linhas_selecionadas, : ]
+    df = df.reset_index(drop=True)
 
-linhas_selecionadas = df['country_name'].isin( country_selected ) #isin = 'está em' 
-df = df.loc[linhas_selecionadas, : ]
-df = df.reset_index(drop=True)
+    linhas_selecionadas = df['country_name'].isin( country_selected ) #isin = 'está em' 
+    df = df.loc[linhas_selecionadas, : ]
+    df = df.reset_index(drop=True)
 
-linhas_selecionadas = df['cuisines'].isin( cuisines_selected ) #isin = 'está em' 
-df = df.loc[linhas_selecionadas, : ]
-df = df.reset_index(drop=True)
+    linhas_selecionadas = df['cuisines'].isin( cuisines_selected ) #isin = 'está em' 
+    df = df.loc[linhas_selecionadas, : ]
+    df = df.reset_index(drop=True)
+
+    st.markdown('''
+                ---
+                # Para mais informações:
+                ''')
+    if st.button('Ajuda'):
+        st.switch_page('pages/6_Ajuda.py')
 
 #============================================
 # Contrução da página
