@@ -4,7 +4,7 @@ from streamlit_extras.switch_page_button import switch_page
 
 st.set_page_config(
     page_title='Home',
-    page_icon='🎲',
+    page_icon='🧭',
     layout='wide',
     initial_sidebar_state='collapsed'
 )
@@ -14,7 +14,7 @@ st.image(image, width=50)
 
 st.write( '#### *Fome Zero Company*')
 
-col1,col2,col3,col4,col5,col6 = st.columns(6,gap='small')
+col1,col2,col3,col4,col5,col6 = st.columns(6,gap='small')   
 
 with col1:
     if st.button("Home"):
