@@ -21,7 +21,10 @@ from streamlit_folium import folium_static
 from PIL import Image
 
 #Configurações iniciais da página
-st.set_page_config(page_title='Visão Geral', page_icon='🎯', layout='wide') #'wide' = use full screen
+st.set_page_config(page_title='Visão Geral', page_icon='🎯', layout='wide',
+                   menu_items={
+                                'Get Help': 'https://www.extremelycoolapp.com/help',
+                            }) #'wide' = use full screen
 
 #============================================
 # Funções utilizadas
@@ -215,8 +218,31 @@ image_path = 'target.png'
 image = Image.open(image_path)
 st.image(image, width=50)
 
-st.markdown('# Fome Zero')
-st.markdown('#### Visão estratégica')
+st.write( '#### *Fome Zero Company*')
+
+col1,col2,col3,col4,col5,col6 = st.columns(6,gap='small')
+
+with col1:
+    if st.button("Home"):
+        st.switch_page("Home.py")
+with col2:
+    if st.button("Visão Geral",disabled=True):
+        st.switch_page("pages/1_Visao_Geral.py")
+with col3:
+    if st.button("Visão País"):
+        st.switch_page("pages/2_Visao_País.py")
+with col4:
+    if st.button("Visão Cidade"):
+        st.switch_page("pages/3_Visao_Cidade.py")
+with col5:
+    if st.button("Visão Restaurantes"):
+        st.switch_page("pages/4_Visao_Restaurante.py")
+with col6:
+    if st.button("Data Base"):
+        st.switch_page("pages/5_Data_Base.py")
+
+
+st.markdown('### :orange[Visão estratégica]')
 
 
 
@@ -238,10 +264,14 @@ with st.sidebar:
                                                 )
    
 
-linhas_selecionadas = df['country_name'].isin( country_selected ) #isin = 'está em' 
-df = df.loc[linhas_selecionadas, : ]
+    linhas_selecionadas = df['country_name'].isin( country_selected ) #isin = 'está em' 
+    df = df.loc[linhas_selecionadas, : ]
 
-df = df.reset_index(drop=True)
+    df = df.reset_index(drop=True)
+
+    st.markdown('''---''')
+    if st.button('Ajuda'):
+        st.switch_page('pages/6_Ajuda.py')
 
 #============================================
 # Contrução da página
