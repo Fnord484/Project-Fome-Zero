@@ -8,7 +8,7 @@ st.set_page_config(
     layout='wide',
     initial_sidebar_state='collapsed'
 )
-image_path = 'C:/Users/Fernando/OneDrive/TRAB/repos/target.png'
+image_path = 'target.png'
 image = Image.open(image_path)
 st.image(image, width=50)
 
