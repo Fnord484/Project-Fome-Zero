@@ -8,3 +8,4 @@ streamlit_folium==0.20.1
 pillow==10.3.0
 inflection==0.5.1
 requests==2.31.0
+streamlit-extras==0.4.3
