@@ -200,14 +200,42 @@ image_path = 'target.png'
 image = Image.open(image_path)
 st.image(image, width=50)
 
-st.markdown('# Fome Zero')
+st.write( '#### *Fome Zero Company*')
+
+col1,col2,col3,col4,col5,col6 = st.columns(6,gap='small')
+
+with col1:
+    if st.button("Home"):
+        st.switch_page("Home.py")
+with col2:
+    if st.button("Visão Geral"):
+        st.switch_page("pages/1_Visao_Geral.py")
+with col3:
+    if st.button("Visão País"):
+        st.switch_page("pages/2_Visao_País.py")
+with col4:
+    if st.button("Visão Cidade"):
+        st.switch_page("pages/3_Visao_Cidade.py")
+with col5:
+    if st.button("Visão Restaurantes"):
+        st.switch_page("pages/4_Visao_Restaurante.py")
+with col6:
+    if st.button("Data Base",disabled=True):
+        st.switch_page("pages/5_Data_Base.py")
+
+st.markdown('### :orange[Data Base]')
 
 with st.sidebar:
     st.sidebar.markdown('# Fome Zero')
     st.sidebar.markdown('##### Os melhores restaurantes estão aqui')
     st.sidebar.markdown('### Você pode utilizar os controles abaixo para filtrar a visualização')
 
-    st.sidebar.divider()
+    st.markdown('''
+                ---
+                # Para mais informações:
+                ''')
+    if st.button('Ajuda'):
+        st.switch_page('pages/6_Ajuda.py')
 
 
 #============================================
