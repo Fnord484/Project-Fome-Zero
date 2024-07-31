@@ -221,7 +221,7 @@ with col5:
         st.switch_page("pages/4_Visao_Restaurante.py")
 with col6:
     if st.button("Data Base",disabled=True):
-        st.switch_page("pages/5_Data_Base.py")
+        st.switch_page("pages/5_Visao_Data_Base.py")
 
 st.markdown('### :orange[Data Base]')
 
