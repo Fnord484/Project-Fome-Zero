@@ -239,7 +239,7 @@ with col5:
         st.switch_page("pages/4_Visao_Restaurante.py")
 with col6:
     if st.button("Data Base"):
-        st.switch_page("pages/5_Data_Base.py")
+        st.switch_page("pages/5_Visao_Data_Base.py")
 
 st.markdown('### :orange[Visão Cidades Cadastradas]')
 
