@@ -259,8 +259,6 @@ with col6:
     if st.button("Data Base"):
         st.switch_page("pages/5_Visao_Data_Base.py")
 
-st.markdown('### :orange[Visão Cidades Cadastradas]')
-
 st.markdown('### :orange[Visão Restaurantes Cadastrados]')
 
 with st.sidebar:
